@@ -80,11 +80,11 @@
       const senha = document.getElementById('senha').value;
 
       // Verifica se o CPF já está registrado
-      fetch(`https://SEU-RESTDB-URL/rest/candidatos?q={"cpf": "${cpf}"}`, {
+      fetch(`https://vestibularb-c6f2.restdb.io/rest/cadastrocandidato?max=2?q={"cpf": "${cpf}"}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'x-apikey': 'SUA-API-KEY',
+          'x-apikey': '67250fe49ea5b66833ab989b',
         }
       })
       .then(response => response.json())
