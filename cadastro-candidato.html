@@ -24,11 +24,11 @@
       const senha = document.getElementById('senha').value;
 
       try {
-        const response = await fetch('https://SEU-RESTDB-URL/rest/candidatos', {
+        const response = await fetch('https://vestibularb-c6f2.restdb.io/rest/cadastrocandidato?max=2', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'x-apikey': 'SUA-API-KEY',
+            'x-apikey': '67250fe49ea5b66833ab989b',
           },
           body: JSON.stringify({ cpf, senha })
         });
