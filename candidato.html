@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal do Candidato</title>
+  <title>Página Inicial - Candidato</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -38,69 +38,76 @@
       text-decoration: none;
       text-align: center;
       background-color: #4c51bf;
-      border-radius: 5px;
-    }
-
-    .sidebar a:hover {
-      background-color: #3b47a2;
+      .sidebar a:hover {
+      background-color: #434190;
     }
 
     /* Conteúdo principal */
     .main-content {
-      margin-left: 200px;
+      margin-left: 220px;
       padding: 20px;
-      width: calc(100% - 200px);
+      width: 100%;
     }
 
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      text-align: center;
+    .welcome-message {
+      font-size: 24px;
+      margin-bottom: 20px;
     }
 
-    .container h2 {
-      color: #333;
+    .profile-info {
+      margin-bottom: 20px;
+      font-size: 18px;
     }
 
-    .container p {
-      font-size: 16px;
-      color: #666;
+    .profile-info label {
+      font-weight: bold;
     }
+
   </style>
 </head>
 <body>
 
   <!-- Menu Lateral -->
   <div class="sidebar">
-    <h2>Menu</h2>
-    <a href="fazer-inscricao.html">Fazer Inscrição</a>
-    <a href="consultar-inscricao.html">Consultar Inscrição</a>
-    <a href="interpor-recurso.html">Interpor Recurso</a>
-    <a href="consultar-resultado-recurso.html">Consultar Resultado dos Recursos</a>
-    <a href="consultar-local-prova.html">Consultar Local de Prova</a>
-    <a href="consultar-desempenho.html">Consultar Desempenho</a>
-    <a href="fazer-matricula.html">Fazer Matrícula</a>
-    <a href="consultar-matricula.html">Consultar Matrícula</a>
+    <h2>Bem-vindo, <span id="nomeCandidatoSidebar"></span></h2>
+    <a href="inscricao.html">Minha Inscrição</a>
+    <a href="consultar-resultados.html">Consultar Resultados</a>
+    <a href="matricula.html">Matrícula</a>
+    <a href="logout.html">Sair</a>
   </div>
 
   <!-- Conteúdo Principal -->
   <div class="main-content">
-    <div class="container">
-      <h2>Bem-vindo, Candidato</h2>
-      <p id="cpfDisplay">CPF: Carregando...</p>
+    <h2 class="welcome-message">Bem-vindo ao Portal do Candidato</h2>
+    
+    <div class="profile-info">
+      <label for="nome">Nome Completo:</label>
+      <p id="nomeCandidato"></p>
+    </div>
+    <div class="profile-info">
+      <label for="cpf">CPF:</label>
+      <p id="cpfCandidato"></p>
+    </div>
+    <div class="profile-info">
+      <label for="statusInscricao">Status da Inscrição:</label>
+      <p id="statusInscricao">Em andamento</p> <!-- Este campo pode ser dinâmico após a inscrição -->
     </div>
   </div>
 
   <script>
-    // Verifica se o usuário está logado (CPF no localStorage)
-    const cpfCandidato = localStorage.getItem('cpfCandidato');
-    if (cpfCandidato) {
-      document.getElementById('cpfDisplay').textContent = `CPF: ${cpfCandidato}`;
-    } else {
-      // Se não estiver logado, redireciona para a página de login
-      alert('Por favor, faça login para acessar o portal.');
-      window.location.href = 'login.html';
+    // Verificando se o usuário está logado
+    const nomeCandidato = sessionStorage.getItem('nomeCandidato');
+    const cpfCandidato = sessionStorage.getItem('cpfCandidato');
+
+    if (!nomeCandidato || !cpfCandidato) {
+      alert('Você precisa fazer login para acessar esta página.');
+      window.location.href = 'login.html'; // Redireciona para a página de login se não estiver logado
     }
+
+    // Exibindo o nome e CPF do candidato
+    document.getElementById('nomeCandidato').textContent = nomeCandidato;
+    document.getElementById('nomeCandidatoSidebar').textContent = nomeCandidato;
+    document.getElementById('cpfCandidato').textContent = cpfCandidato;
   </script>
 
 </body>
