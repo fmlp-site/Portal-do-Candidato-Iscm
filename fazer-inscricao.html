@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fazer Inscrição</title>
   <style>
-    /* Estilos gerais */
     body {
       font-family: Arial, sans-serif;
       display: flex;
@@ -56,47 +55,37 @@
     .container {
       max-width: 600px;
       margin: 0 auto;
-    }
-
-    h2 {
-      color: #333;
       text-align: center;
     }
 
-    .edital-list {
-      margin-top: 20px;
+    .container h2 {
+      color: #333;
     }
 
-    .edital-item {
+    .edital {
+      margin-bottom: 20px;
       padding: 15px;
       background-color: #fff;
-      margin-bottom: 15px;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
-    .edital-item h3 {
-      margin: 0;
-      font-size: 18px;
-      color: #333;
+    .edital a {
+      color: #5a67d8;
+      text-decoration: none;
     }
 
-    .edital-item p {
-      font-size: 14px;
-      color: #666;
-    }
-
-    .edital-item a {
-      display: inline-block;
+    .inscrever-btn {
       margin-top: 10px;
-      padding: 8px 16px;
+      padding: 10px 20px;
       background-color: #5a67d8;
       color: #fff;
-      text-decoration: none;
+      border: none;
       border-radius: 5px;
+      cursor: pointer;
     }
 
-    .edital-item a:hover {
+    .inscrever-btn:hover {
       background-color: #4c51bf;
     }
   </style>
@@ -106,7 +95,6 @@
   <!-- Menu Lateral -->
   <div class="sidebar">
     <h2>Menu</h2>
-    <a href="candidato.html">Página Inicial</a>
     <a href="fazer-inscricao.html">Fazer Inscrição</a>
     <a href="consultar-inscricao.html">Consultar Inscrição</a>
     <a href="interpor-recurso.html">Interpor Recurso</a>
@@ -120,28 +108,8 @@
   <!-- Conteúdo Principal -->
   <div class="main-content">
     <div class="container">
-      <h2>Editais de Processos Seletivos</h2>
-
-      <div class="edital-list">
-        <!-- Exemplo de Edital -->
-        <div class="edital-item">
-          <h3>Processo Seletivo 1</h3>
-          <p>Descrição breve do Processo Seletivo 1.</p>
-          <a href="formulario-inscricao1.html" target="_blank">Inscreva-se</a>
-        </div>
-
-        <div class="edital-item">
-          <h3>Processo Seletivo 2</h3>
-          <p>Descrição breve do Processo Seletivo 2.</p>
-          <a href="formulario-inscricao2.html" target="_blank">Inscreva-se</a>
-        </div>
-
-        <div class="edital-item">
-          <h3>Processo Seletivo 3</h3>
-          <p>Descrição breve do Processo Seletivo 3.</p>
-          <a href="formulario-inscricao3.html" target="_blank">Inscreva-se</a>
-        </div>
-      </div>
+      <h2>Processos Seletivos Disponíveis</h2>
+      <div id="editaisContainer">Carregando editais...</div>
     </div>
   </div>
 
@@ -149,10 +117,51 @@
     // Verifica se o usuário está logado (CPF no localStorage)
     const cpfCandidato = localStorage.getItem('cpfCandidato');
     if (!cpfCandidato) {
-      // Se não estiver logado, redireciona para a página de login
-      alert('Por favor, faça login para acessar a página de inscrição.');
+      alert('Por favor, faça login para acessar esta página.');
       window.location.href = 'login.html';
     }
+
+    // Função para carregar os editais do RestDB
+    async function carregarEditais() {
+      const url = 'https://vestibularb-c6f2.restdb.io/rest/processoseletivos?max=2'; // Altere para a URL correta do seu banco de dados RestDB
+      const headers = {
+        "content-type": "application/json",
+        "x-apikey": "67250fe49ea5b66833ab989b", // Substitua pela sua API Key do RestDB
+        "cache-control": "no-cache"
+      };
+
+      try {
+        const response = await fetch(url, { headers });
+        const processos = await response.json();
+
+        const editaisContainer = document.getElementById('editaisContainer');
+        editaisContainer.innerHTML = '';
+
+        processos.forEach((processo) => {
+          const editalDiv = document.createElement('div');
+          editalDiv.classList.add('edital');
+          
+          editalDiv.innerHTML = `
+            <h3>${processo.titulo}</h3>
+            <p>${processo.descricao}</p>
+            <a href="${processo.linkEdital}" target="_blank">Ver Edital</a>
+            <button class="inscrever-btn" onclick="irParaFormulario('${processo._id}')">Inscreva-se</button>
+          `;
+
+          editaisContainer.appendChild(editalDiv);
+        });
+      } catch (error) {
+        console.error('Erro ao carregar os editais:', error);
+      }
+    }
+
+    // Função para redirecionar ao formulário de inscrição
+    function irParaFormulario(processoId) {
+      window.location.href = `formulario-inscricao.html?processo=${processoId}`;
+    }
+
+    // Chamada para carregar os editais ao carregar a página
+    carregarEditais();
   </script>
 
 </body>
