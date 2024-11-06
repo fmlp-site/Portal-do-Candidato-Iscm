@@ -5,79 +5,155 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fazer Inscrição</title>
   <style>
+    /* Estilos gerais */
     body {
       font-family: Arial, sans-serif;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
       background-color: #f4f4f9;
     }
 
-    .container {
-      max-width: 500px;
-      padding: 20px;
-      background-color: #fff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      border-radius: 8px;
+    /* Menu lateral */
+    .sidebar {
+      width: 200px;
+      height: 100vh;
+      background-color: #5a67d8;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
+      position: fixed;
+    }
+
+    .sidebar h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar a {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      color: #fff;
+      text-decoration: none;
       text-align: center;
+      background-color: #4c51bf;
+      border-radius: 5px;
+    }
+
+    .sidebar a:hover {
+      background-color: #3b47a2;
+    }
+
+    /* Conteúdo principal */
+    .main-content {
+      margin-left: 200px;
+      padding: 20px;
+      width: calc(100% - 200px);
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
     }
 
     h2 {
       color: #333;
+      text-align: center;
     }
 
-    p {
-      font-size: 16px;
+    .edital-list {
+      margin-top: 20px;
+    }
+
+    .edital-item {
+      padding: 15px;
+      background-color: #fff;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .edital-item h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .edital-item p {
+      font-size: 14px;
       color: #666;
-      margin-bottom: 20px;
     }
 
-    .link-edital {
+    .edital-item a {
       display: inline-block;
-      margin: 10px 0;
-      padding: 10px 15px;
+      margin-top: 10px;
+      padding: 8px 16px;
       background-color: #5a67d8;
       color: #fff;
       text-decoration: none;
       border-radius: 5px;
-      font-weight: bold;
     }
 
-    .link-edital:hover {
+    .edital-item a:hover {
       background-color: #4c51bf;
-    }
-
-    .inscreva-se-btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #48bb78;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-
-    .inscreva-se-btn:hover {
-      background-color: #38a169;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h2>Fazer Inscrição</h2>
-    <p>Leia o edital do processo seletivo antes de se inscrever.</p>
-
-    <!-- Link para o edital -->
-    <a href="link-do-edital.pdf" target="_blank" class="link-edital">Acessar Edital</a>
-
-    <!-- Botão para o formulário de inscrição -->
-    <p>Após ler o edital, clique no botão abaixo para realizar sua inscrição:</p>
-    <a href="formulario-inscricao.html" class="inscreva-se-btn">Inscreva-se</a>
+  <!-- Menu Lateral -->
+  <div class="sidebar">
+    <h2>Menu</h2>
+    <a href="candidato.html">Página Inicial</a>
+    <a href="fazer-inscricao.html">Fazer Inscrição</a>
+    <a href="consultar-inscricao.html">Consultar Inscrição</a>
+    <a href="interpor-recurso.html">Interpor Recurso</a>
+    <a href="consultar-resultado-recurso.html">Consultar Resultado dos Recursos</a>
+    <a href="consultar-local-prova.html">Consultar Local de Prova</a>
+    <a href="consultar-desempenho.html">Consultar Desempenho</a>
+    <a href="fazer-matricula.html">Fazer Matrícula</a>
+    <a href="consultar-matricula.html">Consultar Matrícula</a>
   </div>
+
+  <!-- Conteúdo Principal -->
+  <div class="main-content">
+    <div class="container">
+      <h2>Editais de Processos Seletivos</h2>
+
+      <div class="edital-list">
+        <!-- Exemplo de Edital -->
+        <div class="edital-item">
+          <h3>Processo Seletivo 1</h3>
+          <p>Descrição breve do Processo Seletivo 1.</p>
+          <a href="formulario-inscricao1.html" target="_blank">Inscreva-se</a>
+        </div>
+
+        <div class="edital-item">
+          <h3>Processo Seletivo 2</h3>
+          <p>Descrição breve do Processo Seletivo 2.</p>
+          <a href="formulario-inscricao2.html" target="_blank">Inscreva-se</a>
+        </div>
+
+        <div class="edital-item">
+          <h3>Processo Seletivo 3</h3>
+          <p>Descrição breve do Processo Seletivo 3.</p>
+          <a href="formulario-inscricao3.html" target="_blank">Inscreva-se</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Verifica se o usuário está logado (CPF no localStorage)
+    const cpfCandidato = localStorage.getItem('cpfCandidato');
+    if (!cpfCandidato) {
+      // Se não estiver logado, redireciona para a página de login
+      alert('Por favor, faça login para acessar a página de inscrição.');
+      window.location.href = 'login.html';
+    }
+  </script>
 
 </body>
 </html>
