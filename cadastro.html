@@ -15,32 +15,35 @@
         <button type="submit">Cadastrar</button>
     </form>
     <script>
-        // JavaScript para enviar os dados para o RestDB.io
         const form = document.getElementById('cadastroForm');
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             const cpf = document.getElementById('cpf').value;
             const senha = document.getElementById('senha').value;
 
-            // Aqui você inserirá o código para enviar os dados para o RestDB.io
-            // Utilize a API do RestDB.io para fazer a requisição POST
-            // Exemplo usando Fetch API:
             fetch('https://vestibularb-c6f2.restdb.io/rest/cadastrocandidato?max=2', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',
-                    'x-apikey': '67250fe49ea5b66833ab989b' // Substitua pela sua chave API
+                    'x-apikey': '67250fe49ea5b66833ab989b'
                 },
                 body: JSON.stringify({ cpf, senha })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao cadastrar usuário');
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log('Dados enviados com sucesso:', data);
-                // Adicione aqui a lógica para mostrar uma mensagem de sucesso ao usuário
+                alert('Cadastro realizado com sucesso!');
+                // Limpar os campos do formulário após o cadastro
+                form.reset();
             })
             .catch(error => {
                 console.error('Erro ao enviar os dados:', error);
-                // Adicione aqui a lógica para mostrar uma mensagem de erro ao usuário
+                alert('Erro ao cadastrar usuário. Tente novamente.');
             });
         });
     </script>
