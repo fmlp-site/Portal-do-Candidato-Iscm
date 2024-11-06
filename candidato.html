@@ -102,6 +102,23 @@
       });
     }
   </script>
+<script>
+    // ... código existente ...
 
+    .then(data => {
+        if (data.length > 0) {
+          const nomeCandidato = data[0].nome;
+          const cpfCandidato = data[0].cpf; // Supondo que o CPF esteja armazenado no campo "cpf"
+          document.getElementById('saudacao').innerText = `Olá, ${nomeCandidato} (CPF: ${cpfCandidato})!`;
+        } else {
+          // ...
+        }
+      })
+      // ...
+    }
+  </script>
+
+</body>
+</html>
 </body>
 </html>
