@@ -1,104 +1,53 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Login do Candidato</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f3f4f6;
-    }
-
-    .container {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      max-width: 400px;
-      width: 100%;
-    }
-
-    h2 {
-      color: #333;
-      text-align: center;
-    }
-
-    label {
-      font-size: 14px;
-      color: #333;
-    }
-
-    input[type="text"], input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0 16px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #4CAF50;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-  </style>
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h2>Login do Candidato</h2>
     <form id="loginForm">
-      <label for="cpf">CPF:</label>
-      <input type="text" id="cpf" name="cpf" required>
-      <label for="senha">Senha:</label>
-      <input type="password" id="senha" name="senha" required>
-      <button type="submit">Entrar</button>
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" name="cpf" required>
+        <br>
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+        <br>
+        <button type="submit">Login</button>
     </form>
-  </div>
+    <script>
+        // JavaScript para enviar os dados para o RestDB.io e verificar a autenticação
+        const form = document.getElementById('loginForm');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const cpf = document.getElementById('cpf').value;
+            const senha = document.getElementById('senha').value;
 
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      
-      const cpf = document.getElementById('cpf').value;
-      const senha = document.getElementById('senha').value;
-
-      // Verificar credenciais no RestDB.io
-      fetch(`https://vestibularb-c6f2.restdb.io/rest/cadastrocandidato?max=2?q={"cpf": "${cpf}"}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-apikey': '67250fe49ea5b66833ab989b',
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.length > 0 && data[0].senha === senha) {
-          alert('Login realizado com sucesso!');
-          localStorage.setItem('cpfCandidato', cpf); // Armazena o CPF no localStorage
-          window.location.href = 'candidato.html';    // Redireciona para o portal do candidato
-        } else {
-          alert('CPF ou senha incorretos. Tente novamente.');
-        }
-      })
-      .catch(error => {
-        console.error('Erro:', error);
-        alert('Erro ao realizar login. Tente novamente mais tarde.');
-      });
-    });
-  </script>
+            // Aqui você inserirá o código para enviar os dados para o RestDB.io e buscar o usuário
+            // Utilize a API do RestDB.io para fazer a requisição GET
+            // Exemplo usando Fetch API:
+            fetch(`https://vestibularb-c6f2.restdb.io/rest/cadastrocandidato?max=2?q={"cpf":"${cpf}","senha":"${senha}"}`, {
+                method: 'GET',
+                headers: {
+                    'x-apikey': '67250fe49ea5b66833ab989b'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    // Usuário encontrado, realizar login
+                    console.log('Login realizado com sucesso!');
+                    // Redirecionar para outra página ou mostrar uma mensagem de sucesso
+                } else {
+                    // Usuário não encontrado
+                    console.error('Usuário ou senha inválidos.');
+                    // Mostrar uma mensagem de erro ao usuário
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao realizar o login:', error);
+                // Mostrar uma mensagem de erro ao usuário
+            });
+        });
+    </script>
 </body>
 </html>
