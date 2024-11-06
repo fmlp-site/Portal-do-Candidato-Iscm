@@ -1,49 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Login</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Candidato</title>
+  <style>
+    /* Mesmo estilo da página de cadastro */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .form-container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-size: 14px;
+      color: #555;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #5a67d8;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #4c51bf;
+    }
+  </style>
 </head>
 <body>
-    <form id="loginForm">
-        <label for="cpf">CPF:</label>
-        <input type="text" id="cpf" name="cpf" required>
-        <br>
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required>
-        <br>
-        <button type="submit">Login</button>
-    </form>
-    <script>
-        const form = document.getElementById('loginForm');
-        form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const cpf = document.getElementById('cpf').value;
-            const senha = document.getElementById('senha').value;
 
-            fetch(`https://vestibularb-c6f2.restdb.io/rest/cadastrocandidato?max=2?q={"cpf":"${cpf}","senha":"${senha}"}`, {
-                method: 'GET',
-                headers: {
-                    'x-apikey': '67250fe49ea5b66833ab989b'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.length > 0) {
-                    // Usuário encontrado, realizar login
-                    console.log('Login realizado com sucesso!');
-                    // Redirecionar para a página candidato.html
-                    window.location.href = "candidato.html";
-                } else {
-                    // Usuário não encontrado
-                    alert('Usuário ou senha inválidos.');
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao realizar o login:', error);
-                alert('Erro ao realizar o login. Tente novamente.');
-            });
-        });
-    </script>
+  <div class="form-container">
+    <h2>Login de Candidato</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="cpf">CPF</label>
+        <input type="text" id="cpf" required>
+      </div>
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" required>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const cpf = document.getElementById('cpf').value;
+      const senha = document.getElementById('senha').value;
+
+      const url = `https://vestibularb-c6f2.restdb.io/rest/cadastrocandidato?max=2?q={"cpf":"${cpf}","senha":"${senha}"}`; // URL da coleção de candidatos
+      const headers = {
+        "content-type": "application/json",
+        "x-apikey": "67250fe49ea5b66833ab989b", // Sua chave da API do RestDB
+        "cache-control": "no-cache"
+      };
+
+      try {
+        const response = await fetch(url, { headers });
+        const candidatos = await response.json();
+
+        if (candidatos.length > 0) {
+          // Login bem-sucedido
+          const nomeCandidato = candidatos[0].nome;
+          sessionStorage.setItem('nomeCandidato', nomeCandidato);
+          sessionStorage.setItem('cpfCandidato', cpf);
+
+          alert('Login realizado com sucesso!');
+          window.location.href = 'index.html'; // Redireciona para a página inicial do candidato
+        } else {
+          alert('CPF ou senha inválidos.');
+        }
+      } catch (error) {
+        console.error('Erro ao realizar login:', error);
+        alert('Erro ao realizar login. Tente novamente.');
+      }
+    });
+  </script>
+
 </body>
 </html>
